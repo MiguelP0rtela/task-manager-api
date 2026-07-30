@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.database.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.core.security import hash_password
 
 router = APIRouter(
     prefix="/users",
@@ -17,7 +18,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         username=user.username,
         email=user.email,
-        password=user.password
+        password=hash_password(user.password)
     )
 
     try:
