@@ -13,3 +13,8 @@ class UserResponse(BaseModel):
     id: int
     username: str
     email: str
+
+
+class UserUpdate(BaseModel):
+    username: str
+    email: EmailStr
