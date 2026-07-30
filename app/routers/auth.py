@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.core.security import verify_password
+from app.core.security import verify_password, create_access_token
 from app.database.database import get_db
 from app.schemas.user import UserLogin
 from app.models.user import User
@@ -28,4 +28,12 @@ def login(login_data: UserLogin, db: Session = Depends(get_db)):
             detail="Invalid email or password."
         )
 
-    return {"message": "Login sucessfull"}
+    token = create_access_token(
+        {
+            "sub": user.email
+        }
+    )
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
