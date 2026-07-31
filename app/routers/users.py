@@ -33,6 +33,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
             status_code=409,
             detail="The email or username already exists."
         )
+
     return new_user
 
 
@@ -88,6 +89,6 @@ def delete_user(user_id, db: Session = Depends(get_db)):
     return Response(status_code=204)
 
 
-@router.get("/me", response_model= UserResponse)
+@router.get("/me", response_model=UserResponse)
 def read_me(current_user: User = Depends(get_current_user)):
     return current_user
