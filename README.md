@@ -1,17 +1,22 @@
 # 🚀 Task Manager API
 
-A RESTful Task Manager API built with **FastAPI** that provides secure user authentication using **JWT**, password hashing with **Argon2**, and **PostgreSQL** as the database. The project follows modern backend development practices, including Docker, layered architecture, and environment-based configuration.
+A production-oriented REST API built with **FastAPI** to practice modern backend development concepts including
+authentication, database design, security, Docker, testing, and deployment.
+
+The API provides secure user authentication using **JWT**, password hashing with **Argon2**, and **PostgreSQL** as the
+database while following clean architecture and backend best practices.
 
 ---
 
 ## ✨ Features
 
 - 👤 User registration and management
+- 📝 Task management (CRUD)
 - 🔑 Secure authentication with JWT
 - 🔒 Password hashing using Argon2
 - 🗄️ PostgreSQL database integration
 - 📦 SQLAlchemy ORM
-- 🐳 Docker support
+- 🐳 Docker support for PostgreSQL
 - ⚡ Interactive API documentation (Swagger & ReDoc)
 - ⚙️ Environment-based configuration with `.env`
 
@@ -19,17 +24,17 @@ A RESTful Task Manager API built with **FastAPI** that provides secure user auth
 
 ## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
+| Technology  | Purpose              |
+|-------------|----------------------|
 | Python 3.14 | Programming Language |
-| FastAPI | REST API Framework |
-| SQLAlchemy | ORM |
-| PostgreSQL | Database |
-| Docker | Containerized database |
-| Pydantic | Data validation |
-| JWT | Authentication |
-| Argon2 | Password hashing |
-| Uvicorn | ASGI Server |
+| FastAPI     | REST API Framework   |
+| SQLAlchemy  | ORM                  |
+| PostgreSQL  | Database             |
+| Docker      | PostgreSQL Container |
+| Pydantic    | Data validation      |
+| JWT         | Authentication       |
+| Argon2      | Password hashing     |
+| Uvicorn     | ASGI Server          |
 
 ---
 
@@ -37,7 +42,7 @@ A RESTful Task Manager API built with **FastAPI** that provides secure user auth
 
 The project follows a layered architecture to keep the code modular, maintainable and easy to scale.
 
-```
+```text
 app/
 ├── core/          # Security, configuration
 ├── database/      # Database connection
@@ -110,28 +115,38 @@ python -m uvicorn app.main:app --reload
 
 After starting the server, the documentation is available at:
 
-| Documentation | URL |
-|--------------|-----|
-| Swagger UI | http://127.0.0.1:8000/docs |
-| ReDoc | http://127.0.0.1:8000/redoc |
+| Documentation | URL                         |
+|---------------|-----------------------------|
+| Swagger UI    | http://127.0.0.1:8000/docs  |
+| ReDoc         | http://127.0.0.1:8000/redoc |
 
 ---
 
 ## 📌 Project Status
 
-| Feature | Status |
-|:-------------------------|:------:|
-| User CRUD | ✅ |
-| Password Hashing | ✅ |
-| JWT Authentication | ✅ |
-| Environment Configuration | ✅ |
-| Protected Routes | ✅ |
-| Task CRUD | 🚧 |
-| Alembic Migrations | ⏳ |
-| Unit Tests | ⏳ |
-| GitHub Actions (CI/CD) | ⏳ |
-| Refresh Tokens | ⏳ |
-| Role-Based Authorization | ⏳ |
+## 📌 Project Status
+
+| Feature                                  | Status |
+|:-----------------------------------------|:------:|
+| User CRUD                                |   ✅   |
+| Task CRUD                                |   ✅   |
+| JWT Authentication                       |   ✅   |
+| Password Hashing                         |   ✅   |
+| Protected Routes                         |   ✅   |
+| Environment Configuration                |   ✅   |
+| API Documentation (Swagger/OpenAPI)      |   ✅   |
+| Dockerized PostgreSQL                    |   ✅   |
+| Alembic Migrations                       |   ⏳   |
+| Refresh Tokens                           |   ⏳   |
+| Role-Based Authorization                 |   ⏳   |
+| Rate Limiting                            |   ⏳   |
+| Task Status (Completed / Pending)        |   ⏳   |
+| Timestamps (`created_at` / `updated_at`) |   ⏳   |
+| Filtering & Pagination                   |   ⏳   |
+| Unit Tests                               |   ⏳   |
+| GitHub Actions (CI/CD)                   |   ⏳   |
+| Dockerized API                           |   ⏳   |
+| Deployment                               |   ⏳   |
 
 ---
 
@@ -141,13 +156,34 @@ This project is being developed to strengthen practical knowledge of:
 
 - REST API development
 - FastAPI
-- SQLAlchemy
+- SQLAlchemy ORM
 - PostgreSQL
 - Docker
-- Authentication with JWT
+- JWT Authentication
 - Secure password hashing
 - Software architecture
 - Backend development best practices
+- Testing and CI/CD
+- Production-ready API design
+
+---
+
+## 🚀 Roadmap
+
+The next planned improvements are:
+
+- ✅ Complete CRUD for Users
+- ✅ Complete CRUD for Tasks
+- 🔄 Database migrations with Alembic
+- 🔄 Refresh Token authentication
+- 🔄 Role-based authorization
+- 🔄 Task completion status
+- 🔄 Automatic timestamps
+- 🔄 Filtering and pagination
+- 🔄 Unit testing with Pytest
+- 🔄 GitHub Actions (CI/CD)
+- 🔄 Full Docker support
+- 🔄 Cloud deployment
 
 ---
 
