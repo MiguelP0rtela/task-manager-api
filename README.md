@@ -125,7 +125,7 @@ After starting the server, the documentation is available at:
 | Password Hashing | ✅ |
 | JWT Authentication | ✅ |
 | Environment Configuration | ✅ |
-| Protected Routes | 🚧 |
+| Protected Routes | ✅ |
 | Task CRUD | 🚧 |
 | Alembic Migrations | ⏳ |
 | Unit Tests | ⏳ |
