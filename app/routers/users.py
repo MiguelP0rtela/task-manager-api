@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app.database.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse, UserUpdate
-from app.core.security import hash_password
+from app.core.security import hash_password, get_current_user
 
 router = APIRouter(
     prefix="/users",
@@ -86,3 +86,8 @@ def delete_user(user_id, db: Session = Depends(get_db)):
     db.commit()
 
     return Response(status_code=204)
+
+
+@router.get("/me", response_model= UserResponse)
+def read_me(current_user: User = Depends(get_current_user)):
+    return current_user
