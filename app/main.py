@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 
-from app.routers import tasks
 from app.routers.health import router as health_router
 from app.routers.users import router as users_router
 from app.routers.auth import router as users_auth
