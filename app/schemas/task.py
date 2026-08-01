@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 
@@ -12,8 +13,12 @@ class TaskResponse(BaseModel):
     id: int
     title: str
     content: str | None = None
+    completed: bool
+    created_at: datetime
+    updated_at: datetime
 
 
 class TaskUpdate(BaseModel):
     title: str | None = None
     content: str | None = None
+    completed: bool | None = None
