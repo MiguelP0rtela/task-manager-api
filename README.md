@@ -135,11 +135,11 @@ After starting the server, the documentation is available at:
 | API Documentation (Swagger/OpenAPI)      |   ✅   |
 | Dockerized PostgreSQL                    |   ✅   |
 | Alembic Migrations                       |   ✅   |
+| Task Status (Completed / Pending)        |   ✅   |
+| Timestamps (`created_at` / `updated_at`) |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
-| Task Status (Completed / Pending)        |   ⏳   |
-| Timestamps (`created_at` / `updated_at`) |   ⏳   |
 | Filtering & Pagination                   |   ⏳   |
 | Unit Tests                               |   ⏳   |
 | GitHub Actions (CI/CD)                   |   ⏳   |
@@ -172,11 +172,11 @@ The next planned improvements are:
 
 - ✅ Complete CRUD for Users
 - ✅ Complete CRUD for Tasks
-- 🔄 Database migrations with Alembic
+- ✅ Database migrations with Alembic
+- ✅ Task completion status
+- ✅ Automatic timestamps
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
-- 🔄 Task completion status
-- 🔄 Automatic timestamps
 - 🔄 Filtering and pagination
 - 🔄 Unit testing with Pytest
 - 🔄 GitHub Actions (CI/CD)
