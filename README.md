@@ -124,8 +124,6 @@ After starting the server, the documentation is available at:
 
 ## 📌 Project Status
 
-## 📌 Project Status
-
 | Feature                                  | Status |
 |:-----------------------------------------|:------:|
 | User CRUD                                |   ✅   |
@@ -136,7 +134,7 @@ After starting the server, the documentation is available at:
 | Environment Configuration                |   ✅   |
 | API Documentation (Swagger/OpenAPI)      |   ✅   |
 | Dockerized PostgreSQL                    |   ✅   |
-| Alembic Migrations                       |   ⏳   |
+| Alembic Migrations                       |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
