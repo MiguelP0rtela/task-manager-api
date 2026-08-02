@@ -1,3 +1,6 @@
+from configparser import NoOptionError
+from idlelib import query
+
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from sqlalchemy.orm import Session
@@ -37,8 +40,19 @@ def create_task(
 @router.get("/", response_model=list[TaskResponse])
 def get_tasks(
         current_user: User = Depends(get_current_user),
+        completed: bool | None = None,
+        title: str | None = None,
+        db: Session = Depends(get_db)
 ):
-    return current_user.tasks
+    query = db.query(Task).filter(Task.user_id == current_user.id)
+
+    if title is not None:
+        query = query.filter(Task.title.ilike(f"%{title}%"))
+
+    if completed is not None:
+        query = query.filter(Task.completed == completed)
+
+    return query.all()
 
 
 @router.get("/{task_id}", response_model=TaskResponse)
