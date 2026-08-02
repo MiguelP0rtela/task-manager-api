@@ -137,10 +137,10 @@ After starting the server, the documentation is available at:
 | Alembic Migrations                       |   ✅   |
 | Task Status (Completed / Pending)        |   ✅   |
 | Timestamps (`created_at` / `updated_at`) |   ✅   |
+| Filtering & Pagination                   |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
-| Filtering & Pagination                   |   ⏳   |
 | Unit Tests                               |   ⏳   |
 | GitHub Actions (CI/CD)                   |   ⏳   |
 | Dockerized API                           |   ⏳   |
@@ -175,9 +175,9 @@ The next planned improvements are:
 - ✅ Database migrations with Alembic
 - ✅ Task completion status
 - ✅ Automatic timestamps
+- ✅ Filtering and pagination
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
-- 🔄 Filtering and pagination
 - 🔄 Unit testing with Pytest
 - 🔄 GitHub Actions (CI/CD)
 - 🔄 Full Docker support
