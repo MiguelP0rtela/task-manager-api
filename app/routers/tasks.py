@@ -1,7 +1,4 @@
-from configparser import NoOptionError
-from idlelib import query
-
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 
 from sqlalchemy.orm import Session
 
@@ -42,6 +39,8 @@ def get_tasks(
         current_user: User = Depends(get_current_user),
         completed: bool | None = None,
         title: str | None = None,
+        skip: int = Query(default=0, ge=0),
+        limit: int = Query(default=10, le=50),
         db: Session = Depends(get_db)
 ):
     query = db.query(Task).filter(Task.user_id == current_user.id)
@@ -52,7 +51,7 @@ def get_tasks(
     if completed is not None:
         query = query.filter(Task.completed == completed)
 
-    return query.all()
+    return query.offset(skip).limit(limit).all()
 
 
 @router.get("/{task_id}", response_model=TaskResponse)
