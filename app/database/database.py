@@ -1,11 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
-DATABASE_URL = (
-    "postgresql://taskmanager:password@localhost:5432/task_manager"
-)
+from app.core.config import settings
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.database_url)
 
 SessionLocal = sessionmaker(
     autocommit=False,

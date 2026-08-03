@@ -4,8 +4,8 @@ from sqlalchemy.exc import IntegrityError
 
 from app.database.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserResponse, UserUpdate
-from app.core.security import hash_password, get_current_user
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserPasswordUpdate
+from app.core.security import hash_password, get_current_user, verify_password
 
 router = APIRouter(
     prefix="/users",
@@ -90,3 +90,26 @@ def delete_user(user_id, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserResponse)
 def read_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+
+@router.patch("/me/password", status_code=204)
+def change_password(
+        data: UserPasswordUpdate,
+        current_user: User = Depends(get_current_user),
+        db: Session = Depends(get_db),
+):
+    if not verify_password(data.old_password, current_user.password):
+        raise HTTPException(
+            status_code=400,
+            detail="Current password is incorrect."
+        )
+
+    if verify_password(data.new_password, current_user.password):
+        raise HTTPException(
+            status_code=409,
+            detail="The new password must be different from the current password."
+        )
+
+    current_user.password = hash_password(data.new_password)
+
+    db.commit()
