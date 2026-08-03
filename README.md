@@ -95,6 +95,8 @@ Example:
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+DATABASE_URL= your-database-url
 ```
 
 ### 5. Start PostgreSQL
@@ -176,9 +178,9 @@ The next planned improvements are:
 - ✅ Task completion status
 - ✅ Automatic timestamps
 - ✅ Filtering and pagination
+- ⏳ Unit testing with Pytest
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
-- 🔄 Unit testing with Pytest
 - 🔄 GitHub Actions (CI/CD)
 - 🔄 Full Docker support
 - 🔄 Cloud deployment
