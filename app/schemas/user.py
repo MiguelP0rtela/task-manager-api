@@ -8,7 +8,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
-    @field_validator(validate_password(password))
+    @field_validator("password")
     @classmethod
     def validate_user_password(cls, value: str):
         return validate_password(value)
