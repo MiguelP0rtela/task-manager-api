@@ -2,6 +2,7 @@ import pytest
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from app.core.config import settings
 
 from app.database.database import Base, get_db
 
@@ -9,9 +10,7 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 
-TEST_DATABASE_URL = "postgresql://taskmanager:password@localhost:5432/task_manager_test"
-
-engine = create_engine(TEST_DATABASE_URL)
+engine = create_engine(settings.test_database_url)
 
 TestingSessionLocal = sessionmaker(
     autocommit=False,
