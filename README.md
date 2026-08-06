@@ -1,7 +1,7 @@
 # 🚀 Task Manager API
 
-A production-oriented REST API built with **FastAPI** to practice modern backend development concepts including
-authentication, database design, security, Docker, testing, and deployment.
+A production-oriented REST API built with **FastAPI** to practice modern backend development concepts such as
+authentication, database design, testing, Docker, security and clean architecture.
 
 The API provides secure user authentication using **JWT**, password hashing with **Argon2**, and **PostgreSQL** as the
 database while following clean architecture and backend best practices.
@@ -44,12 +44,12 @@ The project follows a layered architecture to keep the code modular, maintainabl
 
 ```text
 app/
-├── core/          # Security, configuration
-├── database/      # Database connection
-├── models/        # SQLAlchemy models
+├── core/          # Configuration, security and validators
+├── database/      # Database engine and session management
+├── models/        # SQLAlchemy ORM models
 ├── routers/       # API endpoints
-├── schemas/       # Pydantic schemas
-└── main.py        # Application entry point
+├── schemas/       # Pydantic request/response schemas
+└── main.py        # FastAPI application entry point
 ```
 
 ---
@@ -85,9 +85,17 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configure the environment
+### 4. Configure the environment variables
 
 Create a `.env` file using `.env.example` as a template.
+
+| Variable                      | Description                                |
+|-------------------------------|--------------------------------------------|
+| `SECRET_KEY`                  | Secret key used to sign JWT tokens         |
+| `ALGORITHM`                   | JWT signing algorithm                      |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT token expiration time (minutes)        |
+| `DATABASE_URL`                | PostgreSQL connection string               |
+| `TEST_DATABASE_URL`           | PostgreSQL test database connection string |
 
 Example:
 
@@ -96,10 +104,11 @@ SECRET_KEY=your-secret-key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-DATABASE_URL= your-database-url
+DATABASE_URL=postgresql://user:password@localhost:5432/task_manager
+TEST_DATABASE_URL=postgresql://user:password@localhost:5432/task_manager_test
 ```
 
-### 5. Start PostgreSQL
+### 5. Start the PostgreSQL container
 
 ```bash
 docker compose up -d
@@ -124,6 +133,28 @@ After starting the server, the documentation is available at:
 
 ---
 
+## 🧪 Testing
+
+Run all tests:
+
+```bash
+python -m pytest
+```
+
+Run all tests with coverage:
+
+```bash
+python -m pytest --cov=app --cov-report=term-missing
+```
+
+Current test coverage:
+
+```
+88%
+```
+
+---
+
 ## 📌 Project Status
 
 | Feature                                  | Status |
@@ -140,13 +171,20 @@ After starting the server, the documentation is available at:
 | Task Status (Completed / Pending)        |   ✅   |
 | Timestamps (`created_at` / `updated_at`) |   ✅   |
 | Filtering & Pagination                   |   ✅   |
+| Unit Tests                               |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
-| Unit Tests                               |   ⏳   |
 | GitHub Actions (CI/CD)                   |   ⏳   |
 | Dockerized API                           |   ⏳   |
 | Deployment                               |   ⏳   |
+
+---
+
+## 🎯 Project Goals
+
+The purpose of this project is to build a production-oriented REST API while applying modern backend development
+practices, including authentication, testing, Docker, database migrations and clean architecture.
 
 ---
 
@@ -168,9 +206,7 @@ This project is being developed to strengthen practical knowledge of:
 
 ---
 
-## 🚀 Roadmap
-
-The next planned improvements are:
+## 🚀 Future Improvements
 
 - ✅ Complete CRUD for Users
 - ✅ Complete CRUD for Tasks
@@ -178,11 +214,11 @@ The next planned improvements are:
 - ✅ Task completion status
 - ✅ Automatic timestamps
 - ✅ Filtering and pagination
-- ⏳ Unit testing with Pytest
+- ✅ Unit testing with Pytest
+- ⏳ Full Docker support
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
 - 🔄 GitHub Actions (CI/CD)
-- 🔄 Full Docker support
 - 🔄 Cloud deployment
 
 ---
@@ -191,7 +227,7 @@ The next planned improvements are:
 
 **Miguel Portela**
 
-GitHub: https://github.com/MiguelP0rtela
+- GitHub: **https://github.com/MiguelP0rtela**
 
 ---
 

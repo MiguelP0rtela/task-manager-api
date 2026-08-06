@@ -4,13 +4,13 @@ def test_health(client):
     assert response.status_code == 200
 
 
-def test_create_users(client):
+def test_create_users_successfully(client):
     response = client.post(
         "/users",
         json={
             "username": "testpython",
             "email": "testpython@gmail.com",
-            "password": "12345"
+            "password": "Teste123!"
         }
     )
 
@@ -27,7 +27,7 @@ def test_create_duplicated_user(client):
     user = {
         "username": "miguel",
         "email": "miguel@gmail.com",
-        "password": "12345"
+        "password": "Teste123!"
     }
 
     client.post(
