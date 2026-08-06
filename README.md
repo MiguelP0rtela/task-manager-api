@@ -5,126 +5,127 @@
 
 # 🚀 Task Manager API
 
-A production-oriented REST API built with FastAPI that demonstrates modern backend development practices including
-authentication, database design, testing, Docker, security, and clean architecture.
+A production-oriented REST API built with **FastAPI** that demonstrates modern backend development practices including authentication, database design, testing, Docker, security, and clean architecture.
 
-The API provides secure user authentication using **JWT**, password hashing with **Argon2**, and **PostgreSQL** as the
-database while following clean architecture and backend best practices.
+The API provides secure authentication using **JWT Access Tokens** and **Refresh Tokens**, password hashing with **Argon2**, **PostgreSQL** as the database, and follows clean architecture and backend best practices.
 
 ---
 
-## ✨ Features
+# ✨ Features
 
 - 👤 User registration and management
 - 📝 Task management (CRUD)
-- 🔑 Secure authentication with JWT
+- 🔑 JWT Authentication
+- 🔄 Refresh Token authentication
 - 🔒 Password hashing using Argon2
 - 🗄️ PostgreSQL database integration
 - 📦 SQLAlchemy ORM
-- 🐳 Fully Dockerized application (FastAPI + PostgreSQL)
+- 📜 Alembic database migrations
+- 🐳 Fully Dockerized application
 - ⚡ Interactive API documentation (Swagger & ReDoc)
 - ⚙️ Environment-based configuration with `.env`
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-| Technology     | Purpose                       |
-|----------------|-------------------------------|
-| Python 3.14    | Programming Language          |
-| FastAPI        | REST API Framework            |
-| SQLAlchemy     | ORM                           |
-| PostgreSQL     | Database                      |
-| Docker         | Containerization              |
+| Technology | Purpose |
+|------------|---------|
+| Python 3.14 | Programming Language |
+| FastAPI | REST API Framework |
+| SQLAlchemy | ORM |
+| PostgreSQL | Database |
+| Alembic | Database Migrations |
+| Docker | Containerization |
 | Docker Compose | Multi-container orchestration |
-| Pydantic       | Data validation               |
-| JWT            | Authentication                |
-| Argon2         | Password hashing              |
-| Uvicorn        | ASGI Server                   |
+| Pydantic | Data Validation |
+| JWT | Authentication |
+| pwdlib (Argon2) | Password Hashing |
+| Uvicorn | ASGI Server |
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
-The project follows a layered architecture to keep the code modular, maintainable and easy to scale.
-
-```text
+```
 app/
-├── core/          # Configuration, security and validators
+├── core/          # Configuration, security and authentication
 ├── database/      # Database engine and session management
-├── models/        # SQLAlchemy ORM models
+├── models/        # SQLAlchemy models
 ├── routers/       # API endpoints
-├── schemas/       # Pydantic request/response schemas
-└── main.py        # FastAPI application entry point
+├── schemas/       # Pydantic schemas
+├── services/      # Business logic (future)
+└── main.py        # FastAPI application
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/MiguelP0rtela/task-manager-api.git
 cd task-manager-api
 ```
 
-### 2. Create and activate a virtual environment
+## 2. Create a virtual environment
 
-**Windows**
+### Windows
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
 ```
 
-**Linux / macOS**
+### Linux / macOS
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Install the dependencies
+---
+
+## 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure the environment variables
+---
 
-Create a `.env` file using `.env.example` as a template.
+## 4. Configure environment variables
 
-| Variable                      | Description                                |
-|-------------------------------|--------------------------------------------|
-| `SECRET_KEY`                  | Secret key used to sign JWT tokens         |
-| `ALGORITHM`                   | JWT signing algorithm                      |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | JWT token expiration time (minutes)        |
-| `DATABASE_URL`                | PostgreSQL connection string               |
-| `TEST_DATABASE_URL`           | PostgreSQL test database connection string |
+Create a `.env` file based on `.env.example`.
 
 Example:
 
 ```env
 SECRET_KEY=your-secret-key
+
 ALGORITHM=HS256
+
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 DATABASE_URL=postgresql://user:password@localhost:5432/task_manager
+
 TEST_DATABASE_URL=postgresql://user:password@localhost:5432/task_manager_test
 ```
 
-### 5. Run the application
+---
 
-#### Option 1 — Run locally
+## 5. Run the application
 
-Start the PostgreSQL container:
+### Option 1 — Local
+
+Start PostgreSQL
 
 ```bash
 docker compose up -d postgres
 ```
 
-Run the API:
+Run the API
 
 ```bash
 python -m uvicorn app.main:app --reload
@@ -132,27 +133,27 @@ python -m uvicorn app.main:app --reload
 
 ---
 
-#### Option 2 — Run everything with Docker
-
-Build and start the application:
+### Option 2 — Docker
 
 ```bash
 docker compose up --build
 ```
 
-The API will be available at:
+---
+
+The API will be available at
 
 ```
 http://localhost:8000
 ```
 
-Swagger UI:
+Swagger
 
 ```
 http://localhost:8000/docs
 ```
 
-ReDoc:
+ReDoc
 
 ```
 http://localhost:8000/redoc
@@ -160,69 +161,110 @@ http://localhost:8000/redoc
 
 ---
 
-## 📖 API Documentation
+# 📖 API Documentation
 
-After starting the server, the documentation is available at:
-
-| Documentation | URL                         |
-|---------------|-----------------------------|
-| Swagger UI    | http://127.0.0.1:8000/docs  |
-| ReDoc         | http://127.0.0.1:8000/redoc |
+| Documentation | URL |
+|---------------|-----|
+| Swagger UI | http://localhost:8000/docs |
+| ReDoc | http://localhost:8000/redoc |
 
 ---
 
-## 🧪 Testing
+# 📡 Main Endpoints
 
-Run all tests:
+## Authentication
+
+| Method | Endpoint |
+|--------|----------|
+| POST | `/auth/login` |
+| POST | `/auth/refresh` |
+
+---
+
+## Users
+
+| Method | Endpoint |
+|--------|----------|
+| POST | `/users` |
+| GET | `/users/{id}` |
+| PUT | `/users/{id}` |
+| DELETE | `/users/{id}` |
+
+---
+
+## Tasks
+
+| Method | Endpoint |
+|--------|----------|
+| GET | `/tasks` |
+| POST | `/tasks` |
+| GET | `/tasks/{id}` |
+| PUT | `/tasks/{id}` |
+| DELETE | `/tasks/{id}` |
+
+---
+
+# 🧪 Testing
+
+Run all tests
 
 ```bash
-python -m pytest
+pytest
 ```
 
-Run all tests with coverage:
+Run with coverage
 
 ```bash
-python -m pytest --cov=app --cov-report=term-missing
+pytest --cov=app --cov-report=term-missing
 ```
 
-Current code coverage: **88%**
+---
+
+# 📌 Project Status
+
+| Feature | Status |
+|-----------------------------------------|:------:|
+| User CRUD | ✅ |
+| Task CRUD | ✅ |
+| JWT Authentication | ✅ |
+| Refresh Tokens | ✅ |
+| Login Endpoint | ✅ |
+| Refresh Endpoint | ✅ |
+| Password Hashing | ✅ |
+| Protected Routes | ⏳ |
+| Logout Endpoint | ⏳ |
+| Environment Configuration | ✅ |
+| API Documentation | ✅ |
+| Dockerized PostgreSQL | ✅ |
+| Alembic Migrations | ✅ |
+| Task Status | ✅ |
+| Created / Updated timestamps | ✅ |
+| Filtering & Pagination | ✅ |
+| Unit Tests | ⏳ |
+| Dockerized Application | ✅ |
+| GitHub Actions (CI/CD) | ⏳ |
+| Role-Based Authorization | ⏳ |
+| Rate Limiting | ⏳ |
+| Deployment | ⏳ |
 
 ---
 
-## 📌 Project Status
+# 🎯 Project Goals
 
-| Feature                                  | Status |
-|:-----------------------------------------|:------:|
-| User CRUD                                |   ✅   |
-| Task CRUD                                |   ✅   |
-| JWT Authentication                       |   ✅   |
-| Password Hashing                         |   ✅   |
-| Protected Routes                         |   ✅   |
-| Environment Configuration                |   ✅   |
-| API Documentation (Swagger/OpenAPI)      |   ✅   |
-| Dockerized PostgreSQL                    |   ✅   |
-| Alembic Migrations                       |   ✅   |
-| Task Status (Completed / Pending)        |   ✅   |
-| Timestamps (`created_at` / `updated_at`) |   ✅   |
-| Filtering & Pagination                   |   ✅   |
-| Unit Tests                               |   ✅   |
-| Dockerized Application                   |   ✅   |
-| GitHub Actions (CI/CD)                   |   ✅   |
-| Refresh Tokens                           |   ⏳   |
-| Role-Based Authorization                 |   ⏳   |
-| Rate Limiting                            |   ⏳   |
-| Deployment                               |   ⏳   |
+The goal of this project is to build a production-ready REST API while applying modern backend development practices, including:
+
+- Authentication
+- Database migrations
+- Docker
+- Secure password hashing
+- Clean Architecture
+- Testing
+- CI/CD
+- Production-ready API design
 
 ---
 
-## 🎯 Project Goals
-
-The purpose of this project is to build a production-oriented REST API while applying modern backend development
-practices, including authentication, testing, Docker, database migrations and clean architecture.
-
----
-
-## 🎯 Learning Objectives
+# 🎯 Learning Objectives
 
 This project is being developed to strengthen practical knowledge of:
 
@@ -231,35 +273,44 @@ This project is being developed to strengthen practical knowledge of:
 - SQLAlchemy ORM
 - PostgreSQL
 - Docker
+- Alembic
 - JWT Authentication
-- Secure password hashing
-- Software architecture
-- Backend development best practices
-- Testing and CI/CD
-- Production-ready API design
+- Refresh Token Authentication
+- Secure Password Hashing
+- Backend Architecture
+- Software Engineering Best Practices
+- Testing
+- CI/CD
 
 ---
 
-## 🚀 Future Improvements
+# 🚀 Future Improvements
 
-- 🔄 Refresh Token authentication
-- 🔄 Role-based authorization
-- 🔄 Rate Limiting
-- 🔄 Improve GitHub Actions (Ruff + Mypy)
-- 🔄 Improve 
-- 🔄 Cloud deployment
+- 🚪 Logout endpoint
+- 👥 Role-Based Authorization (RBAC)
+- 🚦 Rate Limiting
+- ☁️ Cloud Deployment (Railway / Render / Azure)
+- 📊 Logging & Monitoring
+- 📈 Metrics (Prometheus)
+- 🧪 Increase Test Coverage
+- ⚡ Improve GitHub Actions (Tests + Ruff + Mypy)
 
 ---
 
-## 🤝 Author
+# 🤝 Author
 
 **Miguel Portela**
 
-- GitHub: **https://github.com/MiguelP0rtela**
-- LinkedIn: **https://www.linkedin.com/in/miguel-portela-helloworld/**
+GitHub
+
+https://github.com/MiguelP0rtela
+
+LinkedIn
+
+https://www.linkedin.com/in/miguel-portela-helloworld/
 
 ---
 
-## 📄 License
+# 📄 License
 
 This project is licensed under the MIT License.

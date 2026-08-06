@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
-
+from secrets import token_urlsafe
 from app.core.config import settings
 from app.database.database import get_db
 from app.models.user import User
@@ -47,6 +47,10 @@ def create_access_token(data: dict) -> str:
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+
+def create_refresh_token():
+    return token_urlsafe(64)
 
 
 def get_current_user(
