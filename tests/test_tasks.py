@@ -1,3 +1,6 @@
+from http.client import responses
+
+
 def test_create_task_successfully(client):
     client.post(
         "/users",
@@ -248,3 +251,239 @@ def test_get_task_by_id_unsuccessfully(client):
     assert response.status_code == 404
     data = response.json()
     assert data["detail"] == "Task not found."
+
+
+def test_update_task_successfully(client):
+    client.post(
+        "/users",
+        json={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={
+            "username": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    assert login_response.status_code == 200
+
+    token = login_response.json()["access_token"]
+
+    task_created = client.post(
+        "/tasks/",
+        json={
+            "title": "Teste",
+            "content": "Lore ipsum etc"
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert task_created.status_code == 201
+
+    task_id = task_created.json()["id"]
+
+    response = client.patch(
+        f"/tasks/{task_id}",
+        json={
+            "title": "New Title",
+            "content": "New Content"
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["id"] == task_id
+    assert data["title"] == "New Title"
+    assert data["content"] == "New Content"
+
+
+def test_update_task_not_found(client):
+    client.post(
+        "/users",
+        json={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "Test123!"
+        }
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={
+            "username": "test@gmail.com",
+            "password": "Test123!"
+        }
+    )
+
+    assert login_response.status_code == 200
+
+    token = login_response.json()["access_token"]
+
+    response = client.patch(
+        "/tasks/9999",
+        json={
+            "title": "New Title",
+            "content": "New Content"
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert response.status_code == 404
+
+    data = response.json()
+
+    assert data["detail"] == "Task not found."
+
+
+def test_update_task_without_authentification(client):
+    response = client.patch(
+        "/tasks/9999",
+        json={
+            "title": "New Title",
+            "content": "New Content"
+        },
+    )
+
+    data = response.json()
+
+    assert response.status_code == 401
+    assert data["detail"] == "Not authenticated"
+
+
+def test_delete_task_successfully(client):
+    client.post(
+        "/users",
+        json={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={
+            "username": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    assert login_response.status_code == 200
+
+    token = login_response.json()["access_token"]
+
+    task_created = client.post(
+        "/tasks/",
+        json={
+            "title": "Teste",
+            "content": "Lore ipsum etc"
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert task_created.status_code == 201
+
+    task_id = task_created.json()["id"]
+
+    deleted_task = client.delete(
+        f"/tasks/{task_id}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert deleted_task.status_code == 204
+
+
+def test_delete_unexisted_task(client):
+    client.post(
+        "/users",
+        json={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={
+            "username": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    assert login_response.status_code == 200
+
+    token = login_response.json()["access_token"]
+
+    response = client.delete(
+        f"/tasks/1",
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert response.status_code == 404
+
+
+def test_delete_task_without_authentification(client):
+    client.post(
+        "/users",
+        json={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={
+            "username": "test@gmail.com",
+            "password": "Teste123!"
+        }
+    )
+
+    assert login_response.status_code == 200
+
+    token = login_response.json()["access_token"]
+
+    task_created = client.post(
+        "/tasks/",
+        json={
+            "title": "Teste",
+            "content": "Lore ipsum etc"
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        }
+    )
+
+    assert task_created.status_code == 201
+
+    task_id = task_created.json()["id"]
+
+    deleted_task = client.delete(
+        f"/tasks/{task_id}",
+
+    )
+
+    assert deleted_task.status_code == 401
