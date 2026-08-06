@@ -207,10 +207,10 @@ Current code coverage: **88%**
 | Filtering & Pagination                   |   ✅   |
 | Unit Tests                               |   ✅   |
 | Dockerized Application                   |   ✅   |
+| GitHub Actions (CI/CD)                   |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
-| GitHub Actions (CI/CD)                   |   ⏳   |
 | Deployment                               |   ⏳   |
 
 ---
@@ -242,9 +242,11 @@ This project is being developed to strengthen practical knowledge of:
 
 ## 🚀 Future Improvements
 
-- 🔄 GitHub Actions (CI/CD)
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
+- 🔄 Rate Limiting
+- 🔄 Improve GitHub Actions (Ruff + Mypy)
+- 🔄 Improve 
 - 🔄 Cloud deployment
 
 ---

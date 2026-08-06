@@ -7,6 +7,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.database import Base
+from app.models.refresh_token import RefreshToken
 
 
 class User(Base):
@@ -31,4 +32,12 @@ class User(Base):
         nullable=False
     )
 
-    tasks: Mapped[list["Task"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    tasks: Mapped[list["Task"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
+
+    refresh_tokens: Mapped[list["RefreshToken"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
