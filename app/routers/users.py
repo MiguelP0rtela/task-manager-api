@@ -21,6 +21,12 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         password=hash_password(user.password)
     )
 
+    new_user_duplicated = User(
+        username=user.username,
+        email=user.email,
+        password=hash_password(user.password)
+    )
+
     try:
         db.add(new_user)
         db.commit()
