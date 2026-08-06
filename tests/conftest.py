@@ -2,12 +2,9 @@ import pytest
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.core.config import settings
-
-from app.database.database import Base, get_db
-
 from fastapi.testclient import TestClient
-
+from app.core.config import settings
+from app.database.database import Base, get_db
 from app.main import app
 
 engine = create_engine(settings.test_database_url)
@@ -18,12 +15,9 @@ TestingSessionLocal = sessionmaker(
     bind=engine
 )
 
-Base.metadata.create_all(bind=engine)
-
 
 def override_get_db():
     db = TestingSessionLocal()
-
     try:
         yield db
     finally:
