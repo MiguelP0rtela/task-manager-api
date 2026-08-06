@@ -1,0 +1,9 @@
+.venv
+.git
+.gitignore
+.idea
+.vscode
+__pycache__
+.pytest_cache
+.coverage
+*.pyc
