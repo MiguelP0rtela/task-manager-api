@@ -1,7 +1,12 @@
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-REST_API-green)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 # 🚀 Task Manager API
 
-A production-oriented REST API built with **FastAPI** to practice modern backend development concepts such as
-authentication, database design, testing, Docker, security and clean architecture.
+A production-oriented REST API built with FastAPI that demonstrates modern backend development practices including
+authentication, database design, testing, Docker, security, and clean architecture.
 
 The API provides secure user authentication using **JWT**, password hashing with **Argon2**, and **PostgreSQL** as the
 database while following clean architecture and backend best practices.
@@ -16,7 +21,7 @@ database while following clean architecture and backend best practices.
 - 🔒 Password hashing using Argon2
 - 🗄️ PostgreSQL database integration
 - 📦 SQLAlchemy ORM
-- 🐳 Docker support for PostgreSQL
+- 🐳 Fully Dockerized application (FastAPI + PostgreSQL)
 - ⚡ Interactive API documentation (Swagger & ReDoc)
 - ⚙️ Environment-based configuration with `.env`
 
@@ -24,17 +29,18 @@ database while following clean architecture and backend best practices.
 
 ## 🛠️ Tech Stack
 
-| Technology  | Purpose              |
-|-------------|----------------------|
-| Python 3.14 | Programming Language |
-| FastAPI     | REST API Framework   |
-| SQLAlchemy  | ORM                  |
-| PostgreSQL  | Database             |
-| Docker      | PostgreSQL Container |
-| Pydantic    | Data validation      |
-| JWT         | Authentication       |
-| Argon2      | Password hashing     |
-| Uvicorn     | ASGI Server          |
+| Technology     | Purpose                       |
+|----------------|-------------------------------|
+| Python 3.14    | Programming Language          |
+| FastAPI        | REST API Framework            |
+| SQLAlchemy     | ORM                           |
+| PostgreSQL     | Database                      |
+| Docker         | Containerization              |
+| Docker Compose | Multi-container orchestration |
+| Pydantic       | Data validation               |
+| JWT            | Authentication                |
+| Argon2         | Password hashing              |
+| Uvicorn        | ASGI Server                   |
 
 ---
 
@@ -108,16 +114,48 @@ DATABASE_URL=postgresql://user:password@localhost:5432/task_manager
 TEST_DATABASE_URL=postgresql://user:password@localhost:5432/task_manager_test
 ```
 
-### 5. Start the PostgreSQL container
+### 5. Run the application
+
+#### Option 1 — Run locally
+
+Start the PostgreSQL container:
 
 ```bash
-docker compose up -d
+docker compose up -d postgres
 ```
 
-### 6. Run the application
+Run the API:
 
 ```bash
 python -m uvicorn app.main:app --reload
+```
+
+---
+
+#### Option 2 — Run everything with Docker
+
+Build and start the application:
+
+```bash
+docker compose up --build
+```
+
+The API will be available at:
+
+```
+http://localhost:8000
+```
+
+Swagger UI:
+
+```
+http://localhost:8000/docs
+```
+
+ReDoc:
+
+```
+http://localhost:8000/redoc
 ```
 
 ---
@@ -147,11 +185,7 @@ Run all tests with coverage:
 python -m pytest --cov=app --cov-report=term-missing
 ```
 
-Current test coverage:
-
-```
-88%
-```
+Current code coverage: **88%**
 
 ---
 
@@ -172,11 +206,11 @@ Current test coverage:
 | Timestamps (`created_at` / `updated_at`) |   ✅   |
 | Filtering & Pagination                   |   ✅   |
 | Unit Tests                               |   ✅   |
+| Dockerized Application                   |   ✅   |
 | Refresh Tokens                           |   ⏳   |
 | Role-Based Authorization                 |   ⏳   |
 | Rate Limiting                            |   ⏳   |
 | GitHub Actions (CI/CD)                   |   ⏳   |
-| Dockerized API                           |   ⏳   |
 | Deployment                               |   ⏳   |
 
 ---
@@ -208,17 +242,9 @@ This project is being developed to strengthen practical knowledge of:
 
 ## 🚀 Future Improvements
 
-- ✅ Complete CRUD for Users
-- ✅ Complete CRUD for Tasks
-- ✅ Database migrations with Alembic
-- ✅ Task completion status
-- ✅ Automatic timestamps
-- ✅ Filtering and pagination
-- ✅ Unit testing with Pytest
-- ⏳ Full Docker support
+- 🔄 GitHub Actions (CI/CD)
 - 🔄 Refresh Token authentication
 - 🔄 Role-based authorization
-- 🔄 GitHub Actions (CI/CD)
 - 🔄 Cloud deployment
 
 ---
@@ -228,6 +254,7 @@ This project is being developed to strengthen practical knowledge of:
 **Miguel Portela**
 
 - GitHub: **https://github.com/MiguelP0rtela**
+- LinkedIn: **https://www.linkedin.com/in/miguel-portela-helloworld/**
 
 ---
 
