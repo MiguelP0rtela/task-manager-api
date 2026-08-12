@@ -86,6 +86,7 @@ def test_access_protected_endpoint_with_invalid_token(client):
 
     assert data["detail"] == "Could not validate credentials"
 
+
 def test_refresh_token_successful(client):
     client.post(
         "/users",
@@ -124,6 +125,7 @@ def test_refresh_token_successful(client):
     assert data["token_type"] == "bearer"
 
     assert data["refresh_token"] != refresh_token
+
 
 def test_old_refresh_token_cannot_be_reused(client):
     client.post(
@@ -164,6 +166,7 @@ def test_old_refresh_token_cannot_be_reused(client):
     assert second_response.status_code == 401
     assert second_response.json()["detail"] == "Refresh token revoked."
 
+
 def test_refresh_with_invalid_token(client):
     response = client.post(
         "/auth/refresh",
@@ -174,6 +177,7 @@ def test_refresh_with_invalid_token(client):
 
     assert response.status_code == 401
     assert response.json()["detail"] == "Invalid refresh token."
+
 
 def test_logout_successful(client):
     client.post(
@@ -206,6 +210,7 @@ def test_logout_successful(client):
 
     assert response.status_code == 200
     assert response.json()["message"] == "Logged out successfully."
+
 
 def test_refresh_token_cannot_be_used_after_logout(client):
     client.post(
@@ -246,6 +251,7 @@ def test_refresh_token_cannot_be_used_after_logout(client):
     assert refresh_response.status_code == 401
     assert refresh_response.json()["detail"] == "Refresh token revoked."
 
+
 def test_logout_with_invalid_token(client):
     response = client.post(
         "/auth/logout",
@@ -256,6 +262,7 @@ def test_logout_with_invalid_token(client):
 
     assert response.status_code == 401
     assert response.json()["detail"] == "Invalid refresh token."
+
 
 def test_logout_already_revoked_token(client):
     client.post(
