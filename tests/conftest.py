@@ -6,6 +6,8 @@ from fastapi.testclient import TestClient
 from app.core.config import settings
 from app.database.database import Base, get_db
 from app.main import app
+from app.models.user import User
+from app.core.security import hash_password
 
 engine = create_engine(settings.test_database_url)
 
@@ -40,3 +42,23 @@ def setup_database():
     yield
 
     Base.metadata.drop_all(bind=engine)
+
+
+@pytest.fixture
+def admin_user():
+    db = TestingSessionLocal()
+
+    user = User(
+        username="admin",
+        email="admin@gmail.com",
+        password=hash_password("Admin123!"),
+        role="admin",
+    )
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    db.close()
+
+    return user

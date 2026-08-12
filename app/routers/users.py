@@ -1,11 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 from app.database.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserPasswordUpdate
-from app.core.security import hash_password, get_current_user, verify_password
+from app.schemas.user import (
+    UserCreate,
+    UserResponse,
+    UserUpdate,
+    UserPasswordUpdate,
+)
+from app.core.security import (
+    hash_password,
+    get_current_user,
+    verify_password,
+    require_admin,
+)
 
 router = APIRouter(
     prefix="/users",
@@ -14,7 +24,10 @@ router = APIRouter(
 
 
 @router.post("/", response_model=UserResponse, status_code=201)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_user(
+        user: UserCreate,
+        db: Session = Depends(get_db)
+):
     new_user = User(
         username=user.username,
         email=user.email,
@@ -38,25 +51,81 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=list[UserResponse])
-def get_users(db: Session = Depends(get_db)):
+def get_users(
+        db: Session = Depends(get_db),
+        current_user: User = Depends(require_admin),
+):
     users = db.query(User).all()
     return users
 
 
-@router.get("/{user.id}", response_model=UserResponse)
-def get_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
+@router.get("/me", response_model=UserResponse)
+def read_me(
+        current_user: User = Depends(get_current_user)
+):
+    return current_user
+
+
+@router.patch("/me/password", status_code=204)
+def change_password(
+        data: UserPasswordUpdate,
+        current_user: User = Depends(get_current_user),
+        db: Session = Depends(get_db),
+):
+    if not verify_password(
+            data.old_password,
+            current_user.password
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Current password is incorrect."
+        )
+
+    if verify_password(
+            data.new_password,
+            current_user.password
+    ):
+        raise HTTPException(
+            status_code=409,
+            detail="The new password must be different from the current password."
+        )
+
+    current_user.password = hash_password(
+        data.new_password
+    )
+
+    db.commit()
+
+
+@router.get("/{user_id}", response_model=UserResponse)
+def get_user(
+        user_id: int,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(require_admin),
+):
+    user = db.query(User).filter(
+        User.id == user_id
+    ).first()
+
     if user is None:
         raise HTTPException(
             status_code=404,
             detail="User not found."
         )
+
     return user
 
 
-@router.put("/{user.id}", response_model=UserResponse)
-def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
+@router.put("/{user_id}", response_model=UserResponse)
+def update_user(
+        user_id: int,
+        user_data: UserUpdate,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(require_admin),
+):
+    user = db.query(User).filter(
+        User.id == user_id
+    ).first()
 
     if user is None:
         raise HTTPException(
@@ -73,9 +142,15 @@ def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_d
     return user
 
 
-@router.delete("/{user.id}", status_code=204)
-def delete_user(user_id, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.id == user_id).first()
+@router.delete("/{user_id}", status_code=204)
+def delete_user(
+        user_id: int,
+        db: Session = Depends(get_db),
+        current_user: User = Depends(require_admin),
+):
+    user = db.query(User).filter(
+        User.id == user_id
+    ).first()
 
     if user is None:
         raise HTTPException(
@@ -84,32 +159,4 @@ def delete_user(user_id, db: Session = Depends(get_db)):
         )
 
     db.delete(user)
-    db.commit()
-
-
-@router.get("/me", response_model=UserResponse)
-def read_me(current_user: User = Depends(get_current_user)):
-    return current_user
-
-
-@router.patch("/me/password", status_code=204)
-def change_password(
-        data: UserPasswordUpdate,
-        current_user: User = Depends(get_current_user),
-        db: Session = Depends(get_db),
-):
-    if not verify_password(data.old_password, current_user.password):
-        raise HTTPException(
-            status_code=400,
-            detail="Current password is incorrect."
-        )
-
-    if verify_password(data.new_password, current_user.password):
-        raise HTTPException(
-            status_code=409,
-            detail="The new password must be different from the current password."
-        )
-
-    current_user.password = hash_password(data.new_password)
-
     db.commit()
