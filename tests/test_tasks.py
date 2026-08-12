@@ -487,3 +487,296 @@ def test_delete_task_without_authentification(client):
     )
 
     assert deleted_task.status_code == 401
+
+
+def create_user_and_get_token(client, username, email, password):
+    client.post(
+        "/users",
+        json={
+            "username": username,
+            "email": email,
+            "password": password,
+        },
+    )
+
+    response = client.post(
+        "/auth/login",
+        data={
+            "username": email,
+            "password": password,
+        },
+    )
+
+    assert response.status_code == 200
+
+    return response.json()["access_token"]
+
+
+def create_task(client, token, title="Test task", content="Test content"):
+    response = client.post(
+        "/tasks",
+        json={
+            "title": title,
+            "content": content,
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+    )
+
+    assert response.status_code == 201
+
+    return response.json()
+
+
+def test_user_can_create_task(client):
+    token = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    response = client.post(
+        "/tasks",
+        json={
+            "title": "My task",
+            "content": "My task content",
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+    )
+
+    assert response.status_code == 201
+
+    data = response.json()
+
+    assert data["title"] == "My task"
+    assert data["content"] == "My task content"
+    assert "id" in data
+
+
+def test_user_only_sees_own_tasks(client):
+    token1 = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    token2 = create_user_and_get_token(
+        client,
+        "user2",
+        "user2@gmail.com",
+        "Teste123!",
+    )
+
+    create_task(
+        client,
+        token1,
+        "User 1 task",
+        "Private task",
+    )
+
+    response = client.get(
+        "/tasks",
+        headers={
+            "Authorization": f"Bearer {token2}"
+        },
+    )
+
+    assert response.status_code == 200
+
+    tasks = response.json()
+
+    assert len(tasks) == 0
+
+
+def test_user_cannot_get_another_users_task(client):
+    token1 = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    token2 = create_user_and_get_token(
+        client,
+        "user2",
+        "user2@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token1,
+        "Private task",
+        "User 1 content",
+    )
+
+    response = client.get(
+        f"/tasks/{task['id']}",
+        headers={
+            "Authorization": f"Bearer {token2}"
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Task not found."
+
+
+def test_user_can_get_own_task(client):
+    token = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token,
+        "My task",
+        "My content",
+    )
+
+    response = client.get(
+        f"/tasks/{task['id']}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["id"] == task["id"]
+    assert data["title"] == "My task"
+
+
+def test_user_cannot_update_another_users_task(client):
+    token1 = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    token2 = create_user_and_get_token(
+        client,
+        "user2",
+        "user2@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token1,
+        "Original title",
+        "Original content",
+    )
+
+    response = client.patch(
+        f"/tasks/{task['id']}",
+        json={
+            "title": "Hacked title",
+        },
+        headers={
+            "Authorization": f"Bearer {token2}"
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Task not found."
+
+
+def test_user_can_update_own_task(client):
+    token = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token,
+        "Original title",
+        "Original content",
+    )
+
+    response = client.patch(
+        f"/tasks/{task['id']}",
+        json={
+            "title": "Updated title",
+        },
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["title"] == "Updated title"
+
+
+def test_user_cannot_delete_another_users_task(client):
+    token1 = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    token2 = create_user_and_get_token(
+        client,
+        "user2",
+        "user2@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token1,
+        "Private task",
+        "Private content",
+    )
+
+    response = client.delete(
+        f"/tasks/{task['id']}",
+        headers={
+            "Authorization": f"Bearer {token2}"
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Task not found."
+
+
+def test_user_can_delete_own_task(client):
+    token = create_user_and_get_token(
+        client,
+        "user1",
+        "user1@gmail.com",
+        "Teste123!",
+    )
+
+    task = create_task(
+        client,
+        token,
+        "Task to delete",
+        "Delete me",
+    )
+
+    response = client.delete(
+        f"/tasks/{task['id']}",
+        headers={
+            "Authorization": f"Bearer {token}"
+        },
+    )
+
+    assert response.status_code == 204

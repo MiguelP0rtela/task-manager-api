@@ -13,8 +13,10 @@ class RefreshToken(Base):
 
     token: Mapped[str] = mapped_column(String, unique=True, nullable=False)
 
-    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False
+    )
     revoked: Mapped[bool] = mapped_column(Boolean, default=False)
 
     user_id: Mapped[int] = mapped_column(
