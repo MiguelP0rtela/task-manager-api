@@ -1,8 +1,15 @@
+![Python](https://img.shields.io/badge/Python-3.14-blue)
+![FastAPI](https://img.shields.io/badge/FastAPI-REST_API-green)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 # 🚀 Task Manager API
 
-A production-oriented REST API built with **FastAPI**, focused on modern backend development practices including authentication, authorization, database management, testing, containerization, security, and clean architecture.
+A production-oriented REST API built with **FastAPI**, focused on modern backend development practices including
+authentication, authorization, database management, testing, containerization, security, and clean architecture.
 
-The API provides secure authentication using **JWT Access Tokens** and **Refresh Tokens**, password hashing with **Argon2**, **PostgreSQL** as the database, and follows modern backend development practices.
+The API provides secure authentication using **JWT Access Tokens** and **Refresh Tokens**, password hashing with
+**Argon2**, **PostgreSQL** as the database, and follows modern backend development practices.
 
 ---
 
@@ -31,20 +38,20 @@ The API provides secure authentication using **JWT Access Tokens** and **Refresh
 
 # 🛠️ Tech Stack
 
-| Technology | Purpose |
-| --- | --- |
-| Python 3.14 | Programming Language |
-| FastAPI | REST API Framework |
-| SQLAlchemy | ORM |
-| PostgreSQL | Database |
-| Alembic | Database Migrations |
-| Docker | Containerization |
-| Docker Compose | Multi-container orchestration |
-| Pydantic | Data Validation |
-| JWT | Authentication |
-| pwdlib (Argon2) | Password Hashing |
-| Uvicorn | ASGI Server |
-| Pytest | Automated Testing |
+| Technology      | Purpose                       |
+|-----------------|-------------------------------|
+| Python 3.14     | Programming Language          |
+| FastAPI         | REST API Framework            |
+| SQLAlchemy      | ORM                           |
+| PostgreSQL      | Database                      |
+| Alembic         | Database Migrations           |
+| Docker          | Containerization              |
+| Docker Compose  | Multi-container orchestration |
+| Pydantic        | Data Validation               |
+| JWT             | Authentication                |
+| pwdlib (Argon2) | Password Hashing              |
+| Uvicorn         | ASGI Server                   |
+| Pytest          | Automated Testing             |
 
 ---
 
@@ -214,10 +221,10 @@ http://localhost:8000
 
 Once the application is running:
 
-| Documentation | URL |
-| --- | --- |
-| Swagger UI | http://localhost:8000/docs |
-| ReDoc | http://localhost:8000/redoc |
+| Documentation | URL                         |
+|---------------|-----------------------------|
+| Swagger UI    | http://localhost:8000/docs  |
+| ReDoc         | http://localhost:8000/redoc |
 
 Swagger can be used to interact directly with the API and test authenticated endpoints.
 
@@ -227,36 +234,36 @@ Swagger can be used to interact directly with the API and test authenticated end
 
 ## Authentication
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/auth/login` | Login and obtain access/refresh tokens |
-| POST | `/auth/refresh` | Rotate refresh token and obtain a new access token |
-| POST | `/auth/logout` | Revoke refresh token |
+| Method | Endpoint        | Description                                        |
+|--------|-----------------|----------------------------------------------------|
+| POST   | `/auth/login`   | Login and obtain access/refresh tokens             |
+| POST   | `/auth/refresh` | Rotate refresh token and obtain a new access token |
+| POST   | `/auth/logout`  | Revoke refresh token                               |
 
 ---
 
 ## Users
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/users` | Register user |
-| GET | `/users` | List users (Admin) |
-| GET | `/users/{id}` | Get user (Admin) |
-| PUT | `/users/{id}` | Update user (Admin) |
-| DELETE | `/users/{id}` | Delete user (Admin) |
-| GET | `/users/me` | Get current authenticated user |
-| PATCH | `/users/me/password` | Change current user's password |
+| Method | Endpoint             | Description                    |
+|--------|----------------------|--------------------------------|
+| POST   | `/users`             | Register user                  |
+| GET    | `/users`             | List users (Admin)             |
+| GET    | `/users/{id}`        | Get user (Admin)               |
+| PUT    | `/users/{id}`        | Update user (Admin)            |
+| DELETE | `/users/{id}`        | Delete user (Admin)            |
+| GET    | `/users/me`          | Get current authenticated user |
+| PATCH  | `/users/me/password` | Change current user's password |
 
 ---
 
 ## Tasks
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| POST | `/tasks` | Create task |
-| GET | `/tasks` | List authenticated user's tasks |
-| GET | `/tasks/{id}` | Get authenticated user's task |
-| PATCH | `/tasks/{id}` | Update authenticated user's task |
+| Method | Endpoint      | Description                      |
+|--------|---------------|----------------------------------|
+| POST   | `/tasks`      | Create task                      |
+| GET    | `/tasks`      | List authenticated user's tasks  |
+| GET    | `/tasks/{id}` | Get authenticated user's task    |
+| PATCH  | `/tasks/{id}` | Update authenticated user's task |
 | DELETE | `/tasks/{id}` | Delete authenticated user's task |
 
 Tasks are associated with the authenticated user. Users cannot access or modify tasks belonging to other users.
@@ -307,42 +314,43 @@ Current test coverage:
 
 # 📌 Project Status
 
-| Feature | Status |
-| --- | :---: |
-| User CRUD | ✅ |
-| Task CRUD | ✅ |
-| JWT Authentication | ✅ |
-| Refresh Tokens | ✅ |
-| Refresh Token Rotation | ✅ |
-| Login Endpoint | ✅ |
-| Refresh Endpoint | ✅ |
-| Logout / Token Revocation | ✅ |
-| Password Hashing | ✅ |
-| Password Change | ✅ |
-| Protected Routes | ✅ |
-| Role-Based Authorization | ✅ |
-| User Authorization | ✅ |
-| Task Authorization | ✅ |
-| Environment Configuration | ✅ |
-| API Documentation | ✅ |
-| Dockerized PostgreSQL | ✅ |
-| Dockerized Application | ✅ |
-| Alembic Migrations | ✅ |
-| Task Status | ✅ |
-| Created / Updated timestamps | ✅ |
-| Filtering & Pagination | ✅ |
-| Automated Tests | ✅ |
-| Test Coverage | 96% |
-| GitHub Actions (CI/CD) | ⏳ |
-| Rate Limiting | ⏳ |
-| Deployment | ⏳ |
-| Logging & Monitoring | ⏳ |
+| Feature                      | Status |
+|------------------------------|:------:|
+| User CRUD                    |   ✅   |
+| Task CRUD                    |   ✅   |
+| JWT Authentication           |   ✅   |
+| Refresh Tokens               |   ✅   |
+| Refresh Token Rotation       |   ✅   |
+| Login Endpoint               |   ✅   |
+| Refresh Endpoint             |   ✅   |
+| Logout / Token Revocation    |   ✅   |
+| Password Hashing             |   ✅   |
+| Password Change              |   ✅   |
+| Protected Routes             |   ✅   |
+| Role-Based Authorization     |   ✅   |
+| User Authorization           |   ✅   |
+| Task Authorization           |   ✅   |
+| Environment Configuration    |   ✅   |
+| API Documentation            |   ✅   |
+| Dockerized PostgreSQL        |   ✅   |
+| Dockerized Application       |   ✅   |
+| Alembic Migrations           |   ✅   |
+| Task Status                  |   ✅   |
+| Created / Updated timestamps |   ✅   |
+| Filtering & Pagination       |   ✅   |
+| Automated Tests              |   ✅   |
+| Test Coverage                |  96%   |
+| GitHub Actions (CI/CD)       |   ⏳   |
+| Rate Limiting                |   ⏳   |
+| Deployment                   |   ⏳   |
+| Logging & Monitoring         |   ⏳   |
 
 ---
 
 # 🎯 Project Goals
 
-The goal of this project is to build a production-oriented REST API while applying modern backend development practices, including:
+The goal of this project is to build a production-oriented REST API while applying modern backend development practices,
+including:
 
 - Authentication
 - Authorization
