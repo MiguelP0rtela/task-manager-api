@@ -312,6 +312,18 @@ Current test coverage:
 
 ---
 
+## 🌐 Live Demo
+
+The API is publicly deployed and available to test online.
+
+🔗 **[Task Manager API](https://task-manager-api-mw96.onrender.com/)**
+
+📚 **[Interactive Swagger Documentation](https://task-manager-api-mw96.onrender.com/docs)**
+
+No local setup is required. Visit the Swagger documentation to explore the available endpoints and interact with the API directly.
+
+---
+
 # 📌 Project Status
 
 | Feature                      | Status |
@@ -340,9 +352,9 @@ Current test coverage:
 | Filtering & Pagination       |   ✅   |
 | Automated Tests              |   ✅   |
 | GitHub Actions (CI/CD)       |   ✅   |
+| Deployment                   |   ✅   |
 | Test Coverage                |  96%   |
 | Rate Limiting                |   ⏳   |
-| Deployment                   |   ⏳   |
 | Logging & Monitoring         |   ⏳   |
 
 ---
